@@ -567,31 +567,31 @@ function setBtnText(text){
   if (btn) btn.textContent = text;
 }
 
-
 window.addEventListener('DOMContentLoaded', async () => {
   // 1. 기존 애니메이션 및 폼 초기화
-  //initMotions();
-  //initSearchForm();
+  initMotions();
+  initSearchForm();
 
-  // 2. URL 파라미터에서 'code' 값 가져오기
+  // 2. URL 파라미터 분석
   const urlParams = new URLSearchParams(window.location.search);
   const codeParam = urlParams.get('code');
+  const hashParam = urlParams.get('hash'); // hash 파라미터 추가
 
-  // 3. 만약 URL에 code가 있다면 자동으로 API 호출 및 적용
-  if (codeParam) {
-    console.log("URL 파라미터 감지:", codeParam);
-    try {
-      
-      // 기존에 만들어둔 함수들 활용
+  try {
+    // 3. hash가 우선순위: hash가 있으면 즉시 적용
+    if (hashParam) {
+      console.log("URL 해시 감지:", hashParam);
+      await applyKeyToImages(hashParam);
+    } 
+    // 4. hash는 없고 code만 있으면 서버 거쳐서 적용
+    else if (codeParam) {
       const key = await getKeyFromApi(codeParam);
       await applyKeyToImages(key);
-      
-    } catch (err) {
-      console.error(err);
     }
+  } catch (err) {
+    console.error(err);
   }
 });
-
 
 </script>
 
