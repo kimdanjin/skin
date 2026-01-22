@@ -1,0 +1,233 @@
+/* ========== Design tokens ========== */
+:root{
+  --bg: #f4f4f9;
+  --card: #ffffff;
+  --text: #333;
+  --muted: #666;
+  --border: #ddd;
+
+  --r: 8px;
+  --gap: 15px;
+
+  --shadow: 0 4px 8px rgba(0,0,0,.10);
+
+  --btn: #4CAF50;
+  --btn-hover: #45a049;
+}
+
+/* ========== Base ========== */
+*{ box-sizing: border-box; }
+body{
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.sr-only{
+  position:absolute;
+  width:1px;height:1px;
+  padding:0;margin:-1px;
+  overflow:hidden;
+  clip:rect(0,0,0,0);
+  white-space:nowrap;border:0;
+}
+
+/* ========== Toolbar (UI) ========== */
+#toolbar{
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: var(--bg);
+  padding: 12px;
+  border-bottom: 1px solid rgba(0,0,0,.06);
+
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+}
+
+.toolbar__form{
+  width: min(900px, 100%);
+  background: var(--card);
+  border: 1px solid #ccc;
+  border-radius: var(--r);
+  box-shadow: 0 2px 4px rgba(0,0,0,.05);
+
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  padding: 12px;
+}
+
+#share-input{
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+#share-form button,
+.toolbar__btn{
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--btn);
+  color: #fff;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 700;
+  transition: background-color .2s;
+}
+#share-form button:hover,
+.toolbar__btn:hover{ background: var(--btn-hover); }
+
+#share-form button:disabled,
+.toolbar__btn:disabled{
+  opacity: .6;
+  cursor: not-allowed;
+}
+
+.toolbar__message{
+  min-height: 20px;
+  font-weight: 700;
+}
+.toolbar__message.success{ color: #28a745; }
+.toolbar__message.error{ color: #dc3545; }
+
+/* ========== Capture Area ========== */
+#wrap{
+  /* UI와 캡처 영역이 확실히 분리되도록 */
+  padding: 16px 0 24px;
+}
+
+#layer{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: var(--gap);
+  max-width: 1800px;
+  width: 95%;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+/* ========== Motion Card ========== */
+.motion{
+  position: relative;
+  padding-bottom: 100%;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  background: var(--card);
+  box-shadow: var(--shadow);
+}
+
+.motion.spacer{
+  grid-column: 1 / -1;
+  padding-bottom: 0 !important;
+  height: 0;
+  border: 0;
+  box-shadow: none;
+  background: transparent;
+}
+
+.motion h2{
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 35px;
+  margin: 0;
+  padding: 6px 10px;
+  text-align: center;
+  font-size: 24px;
+  z-index: 10;
+}
+
+.motion .frame{
+  position: absolute;
+  top: 35px;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 35px);
+  opacity: 0;
+  object-fit: contain;
+  max-width: 100%;
+  max-height: 100%;
+}
+.motion .frame.active{ opacity: 1; }
+
+/* ========== Mobile ========== */
+@media (max-width: 768px){
+  :root{ --gap: 10px; }
+
+  #toolbar{ padding: 10px; }
+
+  .toolbar__form{
+    grid-template-columns: 1fr;
+  }
+
+  #layer{
+    grid-template-columns: 1fr;
+    width: 100%;
+    max-width: 100%;
+    padding: 8px;
+  }
+
+  .motion h2{
+    height: 30px;
+    font-size: 15px;
+    padding: 5px 8px;
+  }
+
+  .motion .frame{
+    top: 30px;
+    height: calc(100% - 30px);
+  }
+}
+
+#search-wrap{
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
+#share-form{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  width: min(900px, 100%);
+  margin: 0 auto;
+
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+#share-input{
+  flex: 1;
+  min-width: 0;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+#share-form button{
+  padding: 10px 16px;
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+#share-form button:hover{
+  background-color: #45a049;
+}
+

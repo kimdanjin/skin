@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Character Motion Grid Animation (Optimized)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="./Preview.css?t=<?=time()?>">
+</head>
+
+<body>
+
+<?php 
+// PHP 초기값은 임시로 설정
+$key = "APIEOHDIDKJDIMHDPDOLOIIICILJEHPBHBAMGIPIGPLBCOMNGDJHENGDIFJCHEDOHHKCELFKONNKBKOKKAIHDPEDPGOHFGPDKOJAEGCJBBNNFJKNOAMBJDMCDANMJCKNKJBDOKJFIKFABDHPFCEILAALNMHHBBJEILPDECLKABLNOPBNOFLNGCBEHDFOCAMNDFFECHMFMJGAOLAFJHBPLKKGBPDDCHKBENHBGEGCLJPOIAIPMGJINIPHPDMHNEAFKCJFLPDDLBFKGNEHFBPOIIDAMNIKGDIGJMLOFBBKFKCKHFLJEEAJIKAOJAHHOFKKDOCBLJMKEBIIBKFEEGJDIOIPHKMBNAJAFNFHNKGBFMFGCFNDMFPJNEAHNHAFPAAHAONHEDPDIBIHCOBEBNEPGIKANPDODLNAMGLEOAGOAODGECHNGCPHIPKPKIPNIIOEAAEKFMNIPBGEAFCFDFEHFFOLDFDJGEJHHNOMEELPNPHLBHKHMEJGPOLLNPMNACMMLACNBHCGOGHKBPHJMJKKAOLHLPGEJEKILANGBHIPCOHABNDKKGKDBPOOOBNMFJHONPGNINDKCECGIKAFPIMDODIHIPEBGKDPPLKNOGFFHOHNFCIMKDDGMIGCFMACMHNNGLFAKAJLJPMJOCEPKEHLKDGBHDCMCJBHOOPOIFIPINEBNBGCGBELHMPMNADEFANFLKCDPDPBCGAGHDKHFGJNKAILIGDMNGMKGOHFLDNOPIHIFMLGDFNOKENPDPJCAIENOGMPGAGEGIJFJLMHFLJGBFFBPPCFPHPCIBBNFMBFBHGGMMHAJDFGKGHKNDFKPINFAJLGBACHHBDGKHOEJECEMJFGMEMECGNILNNOBKLDALLPHEBEJFPINIKMJOKCNBJINCJPIPHMJMBBBDBMMDBHMEIJMOAILDNFABDAMLMDJMOMGAJKIFFJMICINKKGECMAOGJCKEPJPPJAHHFBPJGCONBAPODEOJLMOKBAPPFEIEKLCMBFNLFIOJDKABEJDMMC";
+?>
+<div id="search-wrap">
+  <form id="share-form">
+    <input type="text" id="share-input" placeholder="공유 URL 또는 코드 입력">
+    <button type="submit">적용</button>
+    <button id="btn-gif" type="button">GIF 저장</button>
+  </form>
+</div>
+
+
+
+<div id="wrap" aria-hidden="true">
+  <div id="layer">
+
+    <div class="motion">
+      <h2>한손 걷기</h2>
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A02.0&wmotion=W01" alt="A02.0" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A02.1&wmotion=W01" alt="A02.1" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A02.2&wmotion=W01" alt="A02.2" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A02.3&wmotion=W01" alt="A02.3" decoding="async">
+    </div>
+
+    <div class="motion">
+      <h2>한손 제자리</h2>
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A00.0&wmotion=W01" alt="A00.0" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A00.1&wmotion=W01" alt="A00.1" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A00.2&wmotion=W01" alt="A00.2" decoding="async">
+    </div>
+
+    <div class="motion">
+      <h2>두손 걷기</h2>
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A03.0&wmotion=W02" alt="A03.0" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A03.1&wmotion=W02" alt="A03.1" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A03.2&wmotion=W02" alt="A03.2" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A03.3&wmotion=W02" alt="A03.3" decoding="async">
+    </div>
+
+    <div class="motion">
+      <h2>두손 제자리</h2>
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A01.0&wmotion=W02" alt="A01.0" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A01.1&wmotion=W02" alt="A01.1" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A01.2&wmotion=W02" alt="A01.2" decoding="async">
+    </div>
+
+    <div class="motion spacer"></div>
+
+    <div class="motion">
+      <h2>swingO1</h2>
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A13.0&wmotion=W01" alt="A13.0" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A13.1&wmotion=W01" alt="A13.1" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A13.2&wmotion=W01" alt="A13.2" decoding="async">
+    </div>
+
+    <div class="motion">
+      <h2>swingO2</h2>
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A14.0&wmotion=W01" alt="A14.0" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A14.1&wmotion=W01" alt="A14.1" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A14.2&wmotion=W01" alt="A14.2" decoding="async">
+    </div>
+
+    <div class="motion">
+      <h2>swingO3</h2>
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A15.0&wmotion=W01" alt="A15.0" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A15.1&wmotion=W01" alt="A15.1" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A15.2&wmotion=W01" alt="A15.2" decoding="async">
+    </div>
+
+    <div class="motion">
+      <h2>swingOF</h2>
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A16.0&wmotion=W01" alt="A16.0" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A16.1&wmotion=W01" alt="A16.1" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A16.2&wmotion=W01" alt="A16.2" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A16.3&wmotion=W01" alt="A16.3" decoding="async">
+    </div>
+
+    <div class="motion spacer"></div>
+
+    <div class="motion">
+      <h2>swingT1</h2>
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A20.0&wmotion=W02" alt="A20.0" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A20.1&wmotion=W02" alt="A20.1" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A20.2&wmotion=W02" alt="A20.2" decoding="async">
+    </div>
+
+    <div class="motion">
+      <h2>swingT2</h2>
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A21.0&wmotion=W02" alt="A21.0" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A21.1&wmotion=W02" alt="A21.1" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A21.2&wmotion=W02" alt="A21.2" decoding="async">
+    </div>
+
+    <div class="motion">
+      <h2>swingT3</h2>
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A22.0&wmotion=W02" alt="A22.0" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A22.1&wmotion=W02" alt="A22.1" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A22.2&wmotion=W02" alt="A22.2" decoding="async">
+    </div>
+
+    <div class="motion">
+      <h2>swingTF</h2>
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A23.0&wmotion=W02" alt="A23.0" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A23.1&wmotion=W02" alt="A23.1" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A23.2&wmotion=W02" alt="A23.2" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A23.3&wmotion=W02" alt="A23.3" decoding="async">
+    </div>
+
+    <div class="motion spacer"></div>
+
+    <div class="motion">
+      <h2>stabO1</h2>
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A24.0&wmotion=W01" alt="A24.0" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A24.1&wmotion=W01" alt="A24.1" decoding="async">
+    </div>
+
+    <div class="motion">
+      <h2>stabO2</h2>
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A25.0&wmotion=W01" alt="A25.0" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A25.1&wmotion=W01" alt="A25.1" decoding="async">
+    </div>
+
+    <div class="motion">
+      <h2>stabOF</h2>
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A26.0&wmotion=W01" alt="A26.0" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A26.1&wmotion=W01" alt="A26.1" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A26.2&wmotion=W01" alt="A26.2" decoding="async">
+    </div>
+
+    <div class="motion spacer"></div>
+    <div class="motion spacer"></div>
+
+    <div class="motion">
+      <h2>stabT1</h2>
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A27.0&wmotion=W02" alt="A27.0" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A27.1&wmotion=W02" alt="A27.1" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A27.2&wmotion=W02" alt="A27.2" decoding="async">
+    </div>
+
+    <div class="motion">
+      <h2>stabT2</h2>
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A28.0&wmotion=W02" alt="A28.0" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A28.1&wmotion=W02" alt="A28.1" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A28.2&wmotion=W02" alt="A28.2" decoding="async">
+    </div>
+
+    <div class="motion">
+      <h2>stabTF</h2>
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A29.0&wmotion=W02" alt="A29.0" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A29.1&wmotion=W02" alt="A29.1" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A29.2&wmotion=W02" alt="A29.2" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A29.3&wmotion=W02" alt="A29.3" decoding="async">
+    </div>
+
+    <div class="motion spacer"></div>
+    <div class="motion spacer"></div>
+
+    <div class="motion">
+      <h2>shoot1</h2>
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A30.0&wmotion=W02" alt="A30.0" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A30.1&wmotion=W02" alt="A30.1" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A30.2&wmotion=W02" alt="A30.2" decoding="async">
+    </div>
+
+    <div class="motion">
+      <h2>shootF</h2>
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A32.0&wmotion=W02" alt="A32.0" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A32.1&wmotion=W02" alt="A32.1" decoding="async">
+    </div>
+
+    <div class="motion">
+      <h2>shoot2</h2>
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A31.0&wmotion=W02" alt="A31.0" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A31.1&wmotion=W02" alt="A31.1" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A31.2&wmotion=W02" alt="A31.2" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A31.3&wmotion=W02" alt="A31.3" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A31.4&wmotion=W02" alt="A31.4" decoding="async">
+    </div>
+
+    <div class="motion spacer"></div>
+    <div class="motion spacer"></div>
+
+    <div class="motion">
+      <h2>swingP1</h2>
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A17.0&wmotion=W02" alt="A17.0" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A17.1&wmotion=W02" alt="A17.1" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A17.2&wmotion=W02" alt="A17.2" decoding="async">
+    </div>
+
+    <div class="motion">
+      <h2>swingP2</h2>
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A18.0&wmotion=W02" alt="A18.0" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A18.1&wmotion=W02" alt="A18.1" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A18.2&wmotion=W02" alt="A18.2" decoding="async">
+    </div>
+
+    <div class="motion">
+      <h2>swingPF</h2>
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A19.0&wmotion=W02" alt="A19.0" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A19.1&wmotion=W02" alt="A19.1" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A19.2&wmotion=W02" alt="A19.2" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A19.3&wmotion=W02" alt="A19.3" decoding="async">
+    </div>
+
+    <div class="motion spacer"></div>
+    <div class="motion spacer"></div>
+
+    <div class="motion">
+      <h2>밧줄</h2>
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A09.0&wmotion=W01" alt="A09.0" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A09.1&wmotion=W01" alt="A09.1" decoding="async">
+    </div>
+
+    <div class="motion">
+      <h2>사다리</h2>
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A08.0&wmotion=W01" alt="A08.0" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A08.1&wmotion=W01" alt="A08.1" decoding="async">
+    </div>
+
+    <div class="motion">
+      <h2>엎드려기</h2>
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A04.0&wmotion=W01" alt="A04.0" decoding="async">
+    </div>
+
+    <div class="motion">
+      <h2>엎드려 공격</h2>
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A12.0&wmotion=W01" alt="A12.0" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A12.1&wmotion=W01" alt="A12.1" decoding="async">
+    </div>
+
+    <div class="motion spacer"></div>
+
+    <div class="motion">
+      <h2>수영</h2>
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A05.0&wmotion=W01" alt="A05.0" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A05.1&wmotion=W01" alt="A05.1" decoding="async">
+    </div>
+
+    <div class="motion">
+      <h2>점프</h2>
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A06.0&wmotion=W01" alt="A06.0" decoding="async">
+    </div>
+
+    <div class="motion">
+      <h2>전투 대기</h2>
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A11.0&wmotion=W01" alt="A11.0" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A11.1&wmotion=W01" alt="A11.1" decoding="async">
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A11.2&wmotion=W01" alt="A11.2" decoding="async">
+    </div>
+
+    <div class="motion">
+      <h2>앉기</h2>
+      <img class="frame" src="https://open.api.nexon.com/static/maplestory/character/look/<?=$key?>?action=A07.0&wmotion=W01" alt="A07.0" decoding="async">
+    </div>
+
+  </div>
+</div>
+
+
+<!-- libs -->
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gif.js.optimized/dist/gif.js"></script>
+
+<script>
+function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
+
+async function getWorkerBlobURL(url) {
+  const res = await fetch(url, { cache: "force-cache" });
+  if (!res.ok) throw new Error("worker fetch failed: " + res.status + " (" + url + ")");
+  const code = await res.text();
+  const blob = new Blob([code], { type: "application/javascript" });
+  return URL.createObjectURL(blob);
+}
+
+function makeReadableCanvas(srcCanvas) {
+  const c = document.createElement("canvas");
+  c.width = srcCanvas.width;
+  c.height = srcCanvas.height;
+
+  const ctx = c.getContext("2d", { willReadFrequently: true });
+
+  // ✅ 캔버스 전체를 먼저 배경색으로 채움 (투명 방지)
+  ctx.fillStyle = "#ffffff"; // 또는 "#f4f4f9"
+  ctx.fillRect(0, 0, c.width, c.height);
+
+  // ✅ 그 위에 캡처 결과를 그림
+  ctx.drawImage(srcCanvas, 0, 0);
+
+  return c;
+}
+
+
+function setMsg(text, isError=false){
+  const box = document.getElementById("message-box");
+  if (!box) return;
+  box.textContent = text;
+  box.className = isError ? "error" : "success";
+}
+
+async function exportLayerToGif() {
+  const target = document.getElementById("layer");
+  if (!target) return;
+
+  const btn = document.getElementById("btn-gif");
+  if (btn) btn.disabled = true;
+
+  let workerScriptUrl = null;
+
+  try {
+    setMsg("GIF 준비 중...");
+
+    const durationMs = 1000;
+    const maxFps = 4;
+    const interval = Math.ceil(1000 / maxFps);        // 200ms
+    const frames = Math.floor(durationMs / interval); // 4
+
+    // ✅ 같은 오리진 파일로 두는 게 제일 안정적
+    // 예: /js/gif.worker.js 로 올렸다면 이 경로로 바꿔줘
+    workerScriptUrl = await getWorkerBlobURL("./gif.worker.js");
+
+    const gif = new GIF({
+      workers: 2,
+      quality: 10,
+      repeat: 0,
+      workerScript: workerScriptUrl
+    });
+
+    gif.on("progress", (p) => {
+      console.log("gif progress", p);
+      setMsg(`GIF 인코딩 중... ${Math.round(p*100)}%`);
+    });
+
+    gif.on("abort", () => {
+      console.log("gif abort");
+      setMsg("GIF 생성이 중단되었습니다(콘솔 확인).", true);
+    });
+
+    gif.on("finished", (blob) => {
+      console.log("gif finished", blob.size);
+
+      if (workerScriptUrl) {
+        URL.revokeObjectURL(workerScriptUrl);
+        workerScriptUrl = null;
+      }
+
+      setMsg("GIF 생성 완료! 다운로드를 시작합니다.");
+
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "layer_800ms_5fps.gif";
+      document.body.appendChild(a);  // ✅ DOM에 붙이고
+      a.click();
+      a.remove();
+
+      // ✅ 너무 빨리 revoke 하면 다운로드가 씹힐 수 있음
+      setTimeout(() => URL.revokeObjectURL(url), 60_000);
+    });
+
+    // 레이아웃 안정화 1프레임 대기
+    await new Promise(requestAnimationFrame);
+
+    // 프레임 캡처
+    for (let i = 0; i < frames; i++) {
+      setMsg(`프레임 캡처 중... (${i+1}/${frames})`);
+
+	 // ✅ (2번) 소수점 라운딩으로 잘리는 것 방지: 캡처 크기 올림
+ // ✅ 화면 높이가 아니라 "콘텐츠 전체 높이"
+  const w = Math.ceil(target.scrollWidth) + 6;
+  const h = Math.ceil(target.scrollHeight) + 6;
+
+  const rawCanvas = await html2canvas(target, {
+    backgroundColor: "#ffffff", // 흰 배경 고정
+    useCORS: true,
+    allowTaint: false,
+    scale: 1,
+    width: w,
+    height: h,
+    windowWidth: w,   // ✅ 렌더 기준 창 크기도 맞춰줌
+    windowHeight: h
+  });
+
+
+
+      const canvas = makeReadableCanvas(rawCanvas);
+      gif.addFrame(canvas, { delay: interval });
+
+      await sleep(interval);
+    }
+
+    setMsg("인코딩 시작...");
+    gif.render();
+
+  } catch (e) {
+    console.error(e);
+    setMsg("오류: " + (e?.message || e), true);
+  } finally {
+    // 워커 blob 정리(실패 시)
+    if (workerScriptUrl) {
+      URL.revokeObjectURL(workerScriptUrl);
+      workerScriptUrl = null;
+    }
+    if (btn) btn.disabled = false;
+  }
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  const btn = document.getElementById("btn-gif");
+  if (btn) btn.addEventListener("click", exportLayerToGif);
+});
+</script>
+
+
+
+
+<!-- 기존 애니메이션/검색 로직 -->
+<script>
+// 0) 한 사이클(모든 프레임 한 번씩) 도는 시간(ms)
+const totalCycleTime = 800;
+let lastTime = 0; // requestAnimationFrame에서 사용할 이전 시간
+const motionsMap = new Map(); // 각 모션의 상태를 저장할 Map
+
+// 메시지를 출력하는 유틸리티 함수
+function showMessage(msg, isError = false) {
+  const box = document.getElementById('message-box');
+  box.textContent = msg;
+  box.className = isError ? 'error' : 'success';
+}
+
+// 1) api.php에서 key(hash) 받아오기 - 검색창에서 입력한 code를 인자로 받음
+async function getKeyFromApi(code) {
+  const body = new URLSearchParams();
+  body.append('code', code);
+
+  const res = await fetch('api.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+    body
+  });
+
+  if (!res.ok) throw new Error(`HTTP Error: ${res.status}`);
+
+  const data = await res.json();
+  if (!data.ok || !data.hash) throw new Error(data.error || 'HASH_NOT_FOUND');
+
+  return data.hash;
+}
+
+// 2) 받은 key로 모든 이미지 src에 반영하고 로딩 완료를 기다림
+async function applyKeyToImages(newKey) {
+  const frames = document.querySelectorAll('.frame');
+  const imageLoadPromises = [];
+
+  frames.forEach(img => {
+    const oldSrc = img.src;
+    const newSrc = oldSrc.replace(/(character\/look\/)[^?]+/, '$1' + newKey);
+
+    if (oldSrc !== newSrc) {
+      imageLoadPromises.push(new Promise((resolve, reject) => {
+        const tempImg = new Image();
+        tempImg.onload = () => { img.src = newSrc; resolve(); };
+        tempImg.onerror = () => reject(new Error('Image Load Failed'));
+        tempImg.src = newSrc;
+      }));
+    }
+  });
+
+  await Promise.all(imageLoadPromises);
+}
+
+// 3) 이미지 애니메이션 (requestAnimationFrame 사용) 초기화
+function initMotions() {
+  const motions = document.querySelectorAll('.motion');
+  motions.forEach(motion => {
+    const frames = motion.querySelectorAll('.frame');
+
+    if (frames.length <= 1) {
+      if (frames.length === 1) frames[0].classList.add('active');
+      return;
+    }
+
+    const frameInterval = totalCycleTime / frames.length;
+    motionsMap.set(motion, {
+      frames: Array.from(frames),
+      frameInterval,
+      current: 0,
+      elapsedTime: 0
+    });
+
+    frames[0].classList.add('active');
+  });
+
+  requestAnimationFrame(animateMotions);
+}
+
+// requestAnimationFrame 콜백 함수 (애니메이션 루프)
+function animateMotions(timestamp) {
+  if (lastTime === 0) lastTime = timestamp;
+
+  const deltaTime = timestamp - lastTime;
+  lastTime = timestamp;
+
+  motionsMap.forEach(motionData => {
+    motionData.elapsedTime += deltaTime;
+
+    if (motionData.elapsedTime >= motionData.frameInterval) {
+      const framesToAdvance = Math.floor(motionData.elapsedTime / motionData.frameInterval);
+
+      motionData.frames[motionData.current].classList.remove('active');
+      motionData.current = (motionData.current + framesToAdvance) % motionData.frames.length;
+      motionData.frames[motionData.current].classList.add('active');
+      motionData.elapsedTime %= motionData.frameInterval;
+    }
+  });
+
+  requestAnimationFrame(animateMotions);
+}
+
+// 4) 검색 폼 이벤트 초기화
+function initSearchForm() {
+  const form = document.getElementById('share-form');
+  const input = document.getElementById('share-input');
+
+  if (!form || !input) return;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const code = input.value.trim();
+    if (!code) {
+      showMessage('공유 코드 또는 URL을 입력해주세요.', true);
+      return;
+    }
+
+    const button = form.querySelector('button[type="submit"]');
+    button.disabled = true;
+
+    try {
+      const key = await getKeyFromApi(code);
+      await applyKeyToImages(key);
+      input.value = '';
+    } catch (err) {
+      console.error(err);
+      showMessage(`오류 발생: ${err.message}`, true);
+    } finally {
+      button.disabled = false;
+    }
+  });
+}
+
+// 5) 페이지 로드 후: 애니메이션 세팅 + 검색폼 세팅
+window.addEventListener('DOMContentLoaded', () => {
+  initMotions();
+  initSearchForm();
+});
+
+
+function setBtnText(text){
+  const btn = document.getElementById("btn-gif");
+  if (btn) btn.textContent = text;
+}
+
+
+
+
+</script>
+
+</body>
+</html>
