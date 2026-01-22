@@ -574,8 +574,8 @@ function setBtnText(text){
 
 window.addEventListener('DOMContentLoaded', async () => {
   // 1. 기존 애니메이션 및 폼 초기화
-  initMotions();
-  initSearchForm();
+  //initMotions();
+  //initSearchForm();
 
   // 2. URL 파라미터에서 'code' 값 가져오기
   const urlParams = new URLSearchParams(window.location.search);
@@ -585,16 +585,13 @@ window.addEventListener('DOMContentLoaded', async () => {
   if (codeParam) {
     console.log("URL 파라미터 감지:", codeParam);
     try {
-      showMessage('URL 코드를 적용 중입니다...');
       
       // 기존에 만들어둔 함수들 활용
       const key = await getKeyFromApi(codeParam);
       await applyKeyToImages(key);
       
-      showMessage('성공적으로 적용되었습니다.');
     } catch (err) {
       console.error(err);
-      showMessage(`URL 코드 적용 오류: ${err.message}`, true);
     }
   }
 });
