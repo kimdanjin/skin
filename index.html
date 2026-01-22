@@ -444,7 +444,7 @@ async function getKeyFromApi(code) {
   const body = new URLSearchParams();
   body.append('code', code);
 
-  const res = await fetch('api.php', {
+  const res = await fetch('https://zzss1004.dothome.co.kr/api/api.php', {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
     body
