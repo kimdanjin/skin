@@ -9,7 +9,11 @@
 
 <body>
 
-
+<div style="text-align: center; margin-bottom: 10px;">
+  <a id="meaegi-link" href="#" target="_blank" style="display:none; padding: 10px 20px; background-color: #ff9100; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">
+    메애기 바로가기
+  </a>
+</div>
 
 <div id="wrap" aria-hidden="true">
   <div id="layer">
@@ -573,6 +577,16 @@ window.addEventListener('DOMContentLoaded', async () => {
     // 3. hash가 우선순위: hash가 있으면 즉시 적용
     if (hashParam) {
       console.log("URL 해시 감지:", hashParam);
+
+      const meaegiBtn = document.getElementById('meaegi-link');
+      if (meaegiBtn) {
+          // 입력하신 형식대로 링크 생성
+          const meaegiUrl = `https://meaegi.com/dressing-room?share=https%3A%2F%2Favatar.maplestory.nexon.com%2FCharacter%2F${hashParam}.png`;
+          meaegiBtn.href = meaegiUrl;
+          meaegiBtn.style.display = 'inline-block'; // hash 값이 있을 때만 버튼 노출
+      }
+
+    
       await applyKeyToImages(hashParam);
     } 
     // 4. hash는 없고 code만 있으면 서버 거쳐서 적용
