@@ -419,28 +419,34 @@ window.addEventListener("DOMContentLoaded", () => {
 
 <!-- 기존 애니메이션/검색 로직 -->
 <script>
-// 0) 한 사이클(모든 프레임 한 번씩) 도는 시간(ms)
-const totalCycleTime = 800;
-let lastTime = 0; // requestAnimationFrame에서 사용할 이전 시간
-const motionsMap = new Map(); // 각 모션의 상태를 저장할 Map
 
-// 메시지를 출력하는 유틸리티 함수
+// 0) 설정 값
+const totalCycleTime = 800;
+let lastTime = 0;
+const motionsMap = new Map();
+
+// 유틸리티: 메시지 출력
 function showMessage(msg, isError = false) {
   const box = document.getElementById('message-box');
+  if (!box) return;
   box.textContent = msg;
   box.className = isError ? 'error' : 'success';
 }
 
-// 1) api.php에서 key(hash) 받아오기 - 검색창에서 입력한 code를 인자로 받음
-async function getKeyFromApi(code) {
-  const body = new URLSearchParams();
-  body.append('code', code);
+// 유틸리티: 메애기 링크 버튼 업데이트
+function updateMeaegiLink(hash) {
+  const meaegiBtn = document.getElementById('meaegi-link');
+  if (meaegiBtn && hash) {
+    const meaegiUrl = `https://meaegi.com/dressing-room?share=https%3A%2F%2Favatar.maplestory.nexon.com%2FCharacter%2F${hash}.png`;
+    meaegiBtn.href = meaegiUrl;
+    meaegiBtn.style.display = 'inline-block';
+  }
+}
 
-  const res = await fetch('https://zzss1004.dothome.co.kr/api/api.php', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
-    body
-  });
+// 1) api.php에서 hash 받아오기 (코드를 인자로 받음)
+async function getKeyFromApi(code) {
+  // GET 방식으로 호출하도록 최적화 (작성하신 php가 $_REQUEST를 사용하므로)
+  const res = await fetch(`https://zzss1004.dothome.co.kr/api/api.php?code=${encodeURIComponent(code)}`);
 
   if (!res.ok) throw new Error(`HTTP Error: ${res.status}`);
 
@@ -450,20 +456,21 @@ async function getKeyFromApi(code) {
   return data.hash;
 }
 
-// 2) 받은 key로 모든 이미지 src에 반영하고 로딩 완료를 기다림
+// 2) 받은 key(hash)로 모든 이미지 src에 반영
 async function applyKeyToImages(newKey) {
   const frames = document.querySelectorAll('.frame');
   const imageLoadPromises = [];
 
   frames.forEach(img => {
     const oldSrc = img.src;
+    // URL 내 해시 부분(character/look/ 뒤의 값)을 교체
     const newSrc = oldSrc.replace(/(character\/look\/)[^?]+/, '$1' + newKey);
 
     if (oldSrc !== newSrc) {
       imageLoadPromises.push(new Promise((resolve, reject) => {
         const tempImg = new Image();
         tempImg.onload = () => { img.src = newSrc; resolve(); };
-        tempImg.onerror = () => reject(new Error('Image Load Failed'));
+        tempImg.onerror = () => reject(new Error('이미지 로드 실패'));
         tempImg.src = newSrc;
       }));
     }
@@ -472,17 +479,15 @@ async function applyKeyToImages(newKey) {
   await Promise.all(imageLoadPromises);
 }
 
-// 3) 이미지 애니메이션 (requestAnimationFrame 사용) 초기화
+// 3) 애니메이션 로직
 function initMotions() {
   const motions = document.querySelectorAll('.motion');
   motions.forEach(motion => {
     const frames = motion.querySelectorAll('.frame');
-
     if (frames.length <= 1) {
       if (frames.length === 1) frames[0].classList.add('active');
       return;
     }
-
     const frameInterval = totalCycleTime / frames.length;
     motionsMap.set(motion, {
       frames: Array.from(frames),
@@ -490,37 +495,30 @@ function initMotions() {
       current: 0,
       elapsedTime: 0
     });
-
     frames[0].classList.add('active');
   });
-
   requestAnimationFrame(animateMotions);
 }
 
-// requestAnimationFrame 콜백 함수 (애니메이션 루프)
 function animateMotions(timestamp) {
   if (lastTime === 0) lastTime = timestamp;
-
   const deltaTime = timestamp - lastTime;
   lastTime = timestamp;
 
   motionsMap.forEach(motionData => {
     motionData.elapsedTime += deltaTime;
-
     if (motionData.elapsedTime >= motionData.frameInterval) {
       const framesToAdvance = Math.floor(motionData.elapsedTime / motionData.frameInterval);
-
       motionData.frames[motionData.current].classList.remove('active');
       motionData.current = (motionData.current + framesToAdvance) % motionData.frames.length;
       motionData.frames[motionData.current].classList.add('active');
       motionData.elapsedTime %= motionData.frameInterval;
     }
   });
-
   requestAnimationFrame(animateMotions);
 }
 
-// 4) 검색 폼 이벤트 초기화
+// 4) 검색 폼 이벤트 설정
 function initSearchForm() {
   const form = document.getElementById('share-form');
   const input = document.getElementById('share-input');
@@ -537,11 +535,14 @@ function initSearchForm() {
 
     const button = form.querySelector('button[type="submit"]');
     button.disabled = true;
+    showMessage("데이터 조회 중...");
 
     try {
       const key = await getKeyFromApi(code);
       await applyKeyToImages(key);
+      updateMeaegiLink(key); // 검색 성공 시 버튼 활성화
       input.value = '';
+      showMessage("적용 완료!");
     } catch (err) {
       console.error(err);
       showMessage(`오류 발생: ${err.message}`, true);
@@ -551,53 +552,40 @@ function initSearchForm() {
   });
 }
 
-// 5) 페이지 로드 후: 애니메이션 세팅 + 검색폼 세팅
-window.addEventListener('DOMContentLoaded', () => {
+// 5) 메인 실행부 (로드 시 실행)
+window.addEventListener('DOMContentLoaded', async () => {
   initMotions();
   initSearchForm();
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const codeParam = urlParams.get('code');
+  const hashParam = urlParams.get('hash');
+
+  try {
+    // URL에 hash가 바로 있는 경우
+    if (hashParam) {
+      updateMeaegiLink(hashParam);
+      await applyKeyToImages(hashParam);
+    } 
+    // URL에 code가 있는 경우 (해시 변환 필요)
+    else if (codeParam) {
+      showMessage("코드를 확인하여 캐릭터를 불러오는 중...");
+      const key = await getKeyFromApi(codeParam);
+      updateMeaegiLink(key);
+      await applyKeyToImages(key);
+      showMessage("불러오기 완료!");
+    }
+  } catch (err) {
+    console.error(err);
+    showMessage(`초기 로드 오류: ${err.message}`, true);
+  }
 });
 
-
+// GIF 내보내기 버튼 텍스트 설정 유틸
 function setBtnText(text){
   const btn = document.getElementById("btn-gif");
   if (btn) btn.textContent = text;
 }
-
-window.addEventListener('DOMContentLoaded', async () => {
-  // 1. 기존 애니메이션 및 폼 초기화
-  initMotions();
-  initSearchForm();
-
-  // 2. URL 파라미터 분석
-  const urlParams = new URLSearchParams(window.location.search);
-  const codeParam = urlParams.get('code');
-  const hashParam = urlParams.get('hash'); // hash 파라미터 추가
-
-  try {
-    // 3. hash가 우선순위: hash가 있으면 즉시 적용
-    if (hashParam) {
-      console.log("URL 해시 감지:", hashParam);
-
-      const meaegiBtn = document.getElementById('meaegi-link');
-      if (meaegiBtn) {
-          // 입력하신 형식대로 링크 생성
-          const meaegiUrl = `https://meaegi.com/dressing-room?share=https%3A%2F%2Favatar.maplestory.nexon.com%2FCharacter%2F${hashParam}.png`;
-          meaegiBtn.href = meaegiUrl;
-          meaegiBtn.style.display = 'inline-block'; // hash 값이 있을 때만 버튼 노출
-      }
-
-    
-      await applyKeyToImages(hashParam);
-    } 
-    // 4. hash는 없고 code만 있으면 서버 거쳐서 적용
-    else if (codeParam) {
-      const key = await getKeyFromApi(codeParam);
-      await applyKeyToImages(key);
-    }
-  } catch (err) {
-    console.error(err);
-  }
-});
 
 </script>
 
